@@ -6,13 +6,13 @@ public class Admin extends Account{
 
     public void getProfileScreen(User user){
         System.out.println("-------------------------");
-        System.out.println("username:");
+        System.out.print("username: ");
         System.out.println(user.getUsername());
-        System.out.println("email:");
+        System.out.print("email: ");
         System.out.println(user.getEmail());
-        System.out.println("address:");
+        System.out.print("address: ");
         System.out.println(user.getAddress());
-        System.out.println("phone number:");
+        System.out.print("phone number: ");
         System.out.println(user.getPhoneNumber());
         System.out.println("-------------------------");
     }
