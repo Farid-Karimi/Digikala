@@ -1,9 +1,9 @@
 package org.example;
 
 public class Product {
-    /*
-    book
-    clothes
-    electronic
-     */
+    public String name;
+    private double price;
+    private double quantity;
+    private String comment;
+
 }

@@ -8,7 +8,7 @@ public class Shop {
     private String phoneNumber;
     private ArrayList<Account> accountList;
     private ArrayList<Product> productList;
-    private ArrayList<Order> orderList;
+    private ArrayList<Product> orderList;
     private double totalProfit;
 
     public Shop(String name, String webAddress, String phoneNumber, double totalProfit) {
@@ -61,11 +61,11 @@ public class Shop {
         this.productList = productList;
     }
 
-    public ArrayList<Order> getOrderList() {
+    public ArrayList<Product> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(ArrayList<Order> orderList) {
+    public void setOrderList(ArrayList<Product> orderList) {
         this.orderList = orderList;
     }
 
@@ -76,4 +76,14 @@ public class Shop {
     public void setTotalProfit(double totalProfit) {
         this.totalProfit = totalProfit;
     }
+    public void addProduct(Product product){
+        productList.add(product);
+    }
+    public void addOrder(Product product){
+        orderList.add(product);
+    }
+    public void addAccount(Account account){
+        accountList.add(account);
+    }
+
 }
