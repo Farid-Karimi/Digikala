@@ -1,18 +1,29 @@
 package org.example;
 
+import java.util.UUID;
+
 public class Product {
+    private UUID id;
+
     public String name;
     private double price;
     private double quantity;
     private String comment;
 
     public Product(String name, double price, double quantity, String comment) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.comment = comment;
     }
 
+    public UUID getId() {
+        return id;
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -45,6 +56,6 @@ public class Product {
         this.comment = comment;
     }
     public String toString() {
-        return "Name: " + name + "\nPrice: $" + price + "\nQuantity: " + quantity + "\nComment: " + comment;
+        return String.format("%s: %s - $%.2f - Quantity: %d - Comment: %s", id.toString(), name, price, quantity, comment);
     }
 }

@@ -8,7 +8,7 @@ public class Shop {
     private String phoneNumber;
     private ArrayList<Account> accountList;
     private ArrayList<Product> productList;
-    private ArrayList<Product> orderList;
+    private ArrayList<Order> orderList;
     private double totalProfit;
 
     public Shop(String name, String webAddress, String phoneNumber, double totalProfit) {
@@ -61,11 +61,11 @@ public class Shop {
         this.productList = productList;
     }
 
-    public ArrayList<Product> getOrderList() {
+    public ArrayList<Order> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(ArrayList<Product> orderList) {
+    public void setOrderList(ArrayList<Order> orderList) {
         this.orderList = orderList;
     }
 
@@ -79,11 +79,51 @@ public class Shop {
     public void addProduct(Product product){
         productList.add(product);
     }
-    public void addOrder(Product product){
-        orderList.add(product);
+    public void addOrder(Order order){
+        orderList.add(order);
     }
     public void addAccount(Account account){
         accountList.add(account);
     }
+    public void addProfit(double amount){
+        totalProfit += amount;
+    }
+    public ArrayList<Order> findOrdersByAccount(Account account) {
+        ArrayList<Order> matchingOrders = new ArrayList<>();
+        for (Order order : orderList) {
+            if (order.getUser().equals(account)) {
+                matchingOrders.add(order);
+            }
+        }
+        return matchingOrders;
+    }
+    public Account findAccountByEmail(String username) {
+        for (Account account : accountList) {
+            if (account.getUsername().equals(username)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    public ArrayList<Product> findProductsByPriceRange(double minPrice, double maxPrice) {
+        ArrayList<Product> matchingProducts = new ArrayList<>();
+        for (Product product : productList) {
+            if (product.getPrice() >= minPrice && product.getPrice() <= maxPrice) {
+                matchingProducts.add(product);
+            }
+        }
+        return matchingProducts;
+    }
+    public Product findProductByName(String productName) {
+        for (Product product : productList) {
+            if (product.getName().equals(productName)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+
+
 
 }
