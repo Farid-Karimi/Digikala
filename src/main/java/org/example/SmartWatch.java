@@ -1,6 +1,7 @@
 package org.example;
 
 public class SmartWatch extends Electronics{
+
     private String bandType;
     private String buildMaterial;
     private String screenSize;

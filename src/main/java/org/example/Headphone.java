@@ -1,6 +1,7 @@
 package org.example;
 
 public class Headphone extends Electronics {
+
     private String connectionType;
     private String batteryCapacity;
 

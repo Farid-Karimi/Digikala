@@ -1,6 +1,7 @@
 package org.example;
 
 public class Phone extends Electronics {
+
     private String screenSize;
     private String operatingSystem;
     private String cameraSpecs;

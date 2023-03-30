@@ -1,6 +1,7 @@
 package org.example;
 
 public class BeautyProduct extends Product {
+
     private String brand;
     private String type;
 

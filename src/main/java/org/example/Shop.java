@@ -3,6 +3,7 @@ package org.example;
 import java.util.ArrayList;
 
 public class Shop {
+   
     private String name;
     private String webAddress;
     private String phoneNumber;
@@ -76,18 +77,23 @@ public class Shop {
     public void setTotalProfit(double totalProfit) {
         this.totalProfit = totalProfit;
     }
+
     public void addProduct(Product product){
         productList.add(product);
     }
+
     public void addOrder(Order order){
         orderList.add(order);
     }
+
     public void addAccount(Account account){
         accountList.add(account);
     }
+
     public void addProfit(double amount){
         totalProfit += amount;
     }
+
     public ArrayList<Order> findOrdersByAccount(Account account) {
         ArrayList<Order> matchingOrders = new ArrayList<>();
         for (Order order : orderList) {
@@ -97,6 +103,7 @@ public class Shop {
         }
         return matchingOrders;
     }
+
     public Account findAccountByEmail(String username) {
         for (Account account : accountList) {
             if (account.getUsername().equals(username)) {
@@ -105,6 +112,7 @@ public class Shop {
         }
         return null;
     }
+
     public ArrayList<Product> findProductsByPriceRange(double minPrice, double maxPrice) {
         ArrayList<Product> matchingProducts = new ArrayList<>();
         for (Product product : productList) {
@@ -114,6 +122,7 @@ public class Shop {
         }
         return matchingProducts;
     }
+
     public Product findProductByName(String productName) {
         for (Product product : productList) {
             if (product.getName().equals(productName)) {

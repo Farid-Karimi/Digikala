@@ -2,6 +2,7 @@ package org.example;
 
 
 public class Admin extends Account{
+
     private String email;
 
     public void getProfileScreen(User user){
@@ -25,6 +26,7 @@ public class Admin extends Account{
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }

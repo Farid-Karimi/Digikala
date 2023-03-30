@@ -1,6 +1,7 @@
 package org.example;
 
 public class Book extends Product {
+
     private String author;
     private String isbn;
 

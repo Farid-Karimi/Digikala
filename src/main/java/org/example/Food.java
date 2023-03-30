@@ -1,6 +1,7 @@
 package org.example;
 
 public class Food extends Product {
+
     private String brand;
     private String expirationDate;
 
