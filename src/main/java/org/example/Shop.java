@@ -3,7 +3,7 @@ package org.example;
 import java.util.ArrayList;
 
 public class Shop {
-   
+
     private String name;
     private String webAddress;
     private String phoneNumber;
