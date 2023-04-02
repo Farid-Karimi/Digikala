@@ -12,6 +12,7 @@ public class User extends Account{
     private ArrayList<Product> shoppingCart;
     private ArrayList<Order> orders;
     private ArrayList<Product> purchased;
+    private boolean authorization;
 
     public User(String username, String password, String email, String phoneNumber, String address) {
         super(username, password);
@@ -22,6 +23,7 @@ public class User extends Account{
         shoppingCart = new ArrayList<>();
         orders = new ArrayList<>();
         purchased = new ArrayList<>();
+        this.authorization = false;
     }
 
     public User(String username, String password, String email, String phoneNumber, String address , double wallet) {
@@ -89,6 +91,14 @@ public class User extends Account{
 
     public void setPurchased(ArrayList<Product> purchased) {
         this.purchased = purchased;
+    }
+
+    public boolean isAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(boolean authorization) {
+        this.authorization = authorization;
     }
 
     public void addToCart(Product product){
