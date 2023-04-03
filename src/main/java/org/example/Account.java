@@ -6,9 +6,12 @@ public class Account {
 
     private String password;
 
+    private boolean authorization;
+
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
+        this.authorization = false;
     }
 
     public String getUsername() {
@@ -27,11 +30,26 @@ public class Account {
         this.password = password;
     }
 
+    public boolean isAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(boolean authorization) {
+        this.authorization = authorization;
+    }
+
+    public String getInstance(){
+        return null;
+    }
+
     @Override
     public String toString() {
-        return "Account{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n--------------- ACCOUNT DETAILS ---------------\n");
+        sb.append("Username: ").append(username).append("\n");
+        sb.append("Password: ").append(password).append("\n");
+        sb.append("-------------------------------------------------\n");
+        return sb.toString();
     }
+
 }

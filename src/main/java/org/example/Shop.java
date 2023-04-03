@@ -10,6 +10,8 @@ public class Shop {
     private ArrayList<Account> accountList;
     private ArrayList<Product> productList;
     private ArrayList<Order> orderList;
+    private ArrayList<Order> orderQueue;
+    private ArrayList<Account> accountQueue;
     private double totalProfit;
 
     public Shop(String name, String webAddress, String phoneNumber, double totalProfit) {
@@ -19,7 +21,47 @@ public class Shop {
         this.accountList = new ArrayList<>();
         this.productList = new ArrayList<>();
         this.orderList = new ArrayList<>();
+        this.orderQueue = new ArrayList<>();
+        this.accountQueue = new ArrayList<>();
         this.totalProfit = totalProfit;
+    }
+
+    public ArrayList<Product> findProductByName(String name){
+        ArrayList<Product> result = new ArrayList<Product>();
+        for (Product p : productList) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
+    public Account findAccountByName(String name){
+        for (Account acc : accountList) {
+            if (acc.getUsername().equalsIgnoreCase(name)) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+    public boolean doesAccountExist(String name){
+        for (Account acc : accountList) {
+            if (acc.getUsername().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean doesProductExist(String name){
+        ArrayList<Product> result = new ArrayList<Product>();
+        for (Product p : productList) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getName() {
@@ -85,9 +127,31 @@ public class Shop {
     public void addOrder(Order order){
         orderList.add(order);
     }
+    public void addToVerifyOrder(Order order){
+        orderQueue.add(order);
+    }
 
     public void addAccount(Account account){
         accountList.add(account);
+    }
+    public void addToVerifyAccount(Account account){
+        accountQueue.add(account);
+    }
+
+    public ArrayList<Order> getOrderQueue() {
+        return orderQueue;
+    }
+
+    public void setOrderQueue(ArrayList<Order> orderQueue) {
+        this.orderQueue = orderQueue;
+    }
+
+    public ArrayList<Account> getAccountQueue() {
+        return accountQueue;
+    }
+
+    public void setAccountQueue(ArrayList<Account> accountQueue) {
+        this.accountQueue = accountQueue;
     }
 
     public void addProfit(double amount){
@@ -121,15 +185,6 @@ public class Shop {
             }
         }
         return matchingProducts;
-    }
-
-    public Product findProductByName(String productName) {
-        for (Product product : productList) {
-            if (product.getName().equals(productName)) {
-                return product;
-            }
-        }
-        return null;
     }
 
 

@@ -68,8 +68,18 @@ public class Product {
         this.seller = seller;
     }
 
+    @Override
     public String toString() {
-        return String.format("%s: %s - $%.2f - Quantity: %d - Comment: %s", id.toString(), name, price, quantity, comment);
+        StringBuilder sb = new StringBuilder();
+        sb.append("PRODUCT\n");
+        sb.append("ID:        ").append(id).append("\n");
+        sb.append("Name:      ").append(name).append("\n");
+        sb.append("Price:     ").append(String.format("$%.2f", price)).append("\n");
+        sb.append("Quantity:  ").append(quantity).append("\n");
+        sb.append("Comment:   ").append(comment).append("\n");
+        sb.append("Seller:    ").append(seller.getUsername()).append("\n");
+        return sb.toString();
     }
+
 
 }

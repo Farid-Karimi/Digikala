@@ -1,42 +1,135 @@
 package org.example;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
-    static Scanner input = new Scanner(System.in);
     static Shop shop = new Shop("My Shop", "www.myshop.com", "909 230 12 02", 0.0);
+    static Scanner input = new Scanner(System.in);
     static Admin admin = new Admin("gholi","1234","gholiMoli@gmail.com");
+    static User user = null;
+    static Seller seller = null;
+
     public static void main(String[] args) {
-        System.out.println("1. Admin");
-        System.out.println("2. User");
-        System.out.println("3. Seller");
-        System.out.println("Choose your role:");
+        register();
+    }
+
+    //---------------------------------------------
+    public static void register(){
+        System.out.println("1. Login");
+        System.out.println("2. Sign Up");
+        System.out.println("0. Close");
+        System.out.println("Enter your choice: ");
         int choice = input.nextInt();
+
+        if (choice == 0){
+            System.exit(0);
+        }
+        if (choice != 1 || choice != 2){
+            System.out.println("Invalid Input!");
+            register();
+        }
+
+        if(choice == 2){
+            createAccount();
+        }
+
+        System.out.println("Enter username:");
+        String username = input.nextLine();
+        System.out.println("Enter password:");
+        String password = input.nextLine();
+        if (shop.doesAccountExist(username) && Objects.equals(shop.findAccountByName(username).getPassword(), password)){
+
+            if(Objects.equals(shop.findAccountByName(username).getInstance(), "Admin")){
+                admin =(Admin) shop.findAccountByName(username);
+                adminMenu();
+            }
+            else if(Objects.equals(shop.findAccountByName(username).getInstance(), "Seller")){
+                seller = (Seller) shop.findAccountByName(username);
+                sellerMenu();
+            }
+            else if(Objects.equals(shop.findAccountByName(username).getInstance(), "User")){
+                user = (User) shop.findAccountByName(username);
+                userMenu();
+            }
+            else{
+                System.out.println("Oh Nooooooooooo!");
+            }
+
+        }
+
+    }
+
+    public static void createAccount(){
+        System.out.println("1. User");
+        System.out.println("2. Seller");
+        System.out.println("0. Exit");
+        System.out.println("Choose your role :");
+
+        int choice = input.nextInt();
+
         switch (choice){
             case 1:
+                System.out.println("Enter username:");
+                String username = input.nextLine();
+                if (shop.doesAccountExist(username)){
+                    System.out.println("sorry this username already exist!");
+                    createAccount();
+                }
+                System.out.println("Enter amount of money:");
+                double wallet = input.nextDouble();
+                System.out.println("Enter password:");
+                String password = input.nextLine();
+                Seller seller = new Seller(username,password,wallet);
+                shop.addToVerifyAccount(seller);
                 break;
             case 2:
+                System.out.println("Enter username:");
+                username = input.nextLine();
+                System.out.println("Enter amount of money:");
+                wallet = input.nextDouble();
+                System.out.println("Enter password:");
+                password = input.nextLine();
+                System.out.println("Enter email:");
+                String email = input.nextLine();
+                System.out.println("Enter phone number:");
+                String phoneNumber = input.nextLine();
+                System.out.println("Enter address:");
+                String address = input.nextLine();
+                User user = new User(username,password,email,phoneNumber,address,wallet);
+                shop.addToVerifyAccount(user);
                 break;
-            case 3:
+            case 0:
+                main(null);
                 break;
             default:
-                // Invalid choice
                 System.out.println("Invalid choice. Please try again.");
                 break;
         }
     }
 
-    public void adminMenu(){
-        while (true) {
+    //---------------------------------------------
+    public static void sellerMenu(){
+
+    }
+
+    //---------------------------------------------
+    public static void userMenu(){
+
+    }
+
+    //---------------------------------------------
+    public static void adminMenu(){
 
             System.out.println("1. Add product");
-            System.out.println("2. Add order");
-            System.out.println("3. Add account");
+            System.out.println("2. verify order");
+            System.out.println("3. Add Admin");
             System.out.println("4. Add profit");
             System.out.println("5. List products");
             System.out.println("6. List orders");
             System.out.println("7. List accounts");
             System.out.println("8. Show total profit");
+            System.out.println("9. Verify Accounts");
             System.out.println("0. Exit");
 
             System.out.print("Enter your choice: ");
@@ -50,7 +143,7 @@ public class Main {
 
                 case 2:
                     // Add order
-                    addOrder();
+                    verifyOrder();
                     break;
 
                 case 3:
@@ -95,18 +188,21 @@ public class Main {
                     System.out.println("Total profit: " + shop.getTotalProfit());
                     break;
 
+                case 9:
+                    //authorize Sellers
+                    verifyAccount();
                 case 0:
                     // Exit
-                    System.out.println("Goodbye!");
-                    System.exit(0);
+                    main(null);
 
                 default:
                     // Invalid choice
                     System.out.println("Invalid choice. Please try again.");
+                    adminMenu();
                     break;
             }
-        }
     }
+
     public static void addProduct(){
         System.out.println("Enter product category:");
         System.out.println("Choose a category for products: ");
@@ -120,6 +216,7 @@ public class Main {
         System.out.println("8. Toy");
         System.out.println("9. Beauty Products");
         System.out.println("10. Food");
+        System.out.println("0. Exit");
         System.out.print("Enter your choice: ");
         int choice = input.nextInt();
 
@@ -311,9 +408,144 @@ public class Main {
                 Food food = new Food(name,price,quantity,comment,brand,expirationDate);
                 shop.addProduct(food);
                 break;
+            case 0:
+                main(null);
+                break;
             default:
                 System.out.println("Invalid choice.");
                 break;
         }
     }
+
+    public static void addAccount(){
+        System.out.println("1. Admin");
+        System.out.println("2. Seller");
+        System.out.println("3. User");
+        System.out.println("0. Exit");
+        System.out.println("Enter account type:");
+
+        int choice = input.nextInt();
+
+        switch (choice){
+            case 1:
+                System.out.println("Enter username:");
+                String username = input.nextLine();
+                if (shop.doesAccountExist(username)){
+                    System.out.println("sorry this username already exist!");
+                    createAccount();
+                }
+                System.out.println("Enter email:");
+                String email = input.nextLine();
+                System.out.println("Enter password:");
+                String password = input.nextLine();
+                Admin admin1 = new Admin(username,password,email);
+                shop.addAccount(admin1);
+                break;
+            case 2:
+                System.out.println("Enter username:");
+                username = input.nextLine();
+                if (shop.doesAccountExist(username)){
+                    System.out.println("sorry this username already exist!");
+                    createAccount();
+                }
+                System.out.println("Enter amount of money:");
+                double wallet = input.nextDouble();
+                System.out.println("Enter password:");
+                password = input.nextLine();
+                Seller seller = new Seller(username,password,wallet);
+                shop.addAccount(seller);
+                break;
+            case 3:
+                System.out.println("Enter username:");
+                username = input.nextLine();
+                if (shop.doesAccountExist(username)){
+                    System.out.println("sorry this username already exist!");
+                    createAccount();
+                }
+                System.out.println("Enter amount of money:");
+                wallet = input.nextDouble();
+                System.out.println("Enter password:");
+                password = input.nextLine();
+                System.out.println("Enter email:");
+                email = input.nextLine();
+                System.out.println("Enter phone number:");
+                String phoneNumber = input.nextLine();
+                System.out.println("Enter address:");
+                String address = input.nextLine();
+                User user = new User(username,password,email,phoneNumber,address,wallet);
+                shop.addAccount(user);
+                break;
+            case 0:
+                main(null);
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again!");
+                addAccount();
+                break;
+        }
+
+    }
+
+    public static void verifyOrder(){
+
+        for(Order order : shop.getOrderQueue()){
+            System.out.println(order);
+            System.out.println("do you want this order to be verified?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+            System.out.println("0. Exit");
+            int choice = input.nextInt();
+            switch (choice){
+                case 1 :
+                    order.setVerification(true);
+                    shop.getOrderQueue().remove(order);
+                    break;
+                case 2:
+                    order.setVerification(false);
+                    shop.getOrderQueue().remove(order);
+                    break;
+                case 0:
+                    main(null);
+                    break;
+                default :
+                    System.out.println("Invalid Input!");
+                    verifyOrder();
+                    break;
+            }
+            System.out.println("-------------------------");
+        }
+    }
+
+    public static void verifyAccount(){
+
+        for(Account account : shop.getAccountQueue()){
+            System.out.println(account);
+            System.out.println("do you want this account to be verified?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+            System.out.println("0. Exit");
+            int choice = input.nextInt();
+            switch (choice){
+                case 1 :
+                    account.setAuthorization(true);
+                    shop.getAccountQueue().remove(account);
+                    shop.addAccount(account);
+                    break;
+                case 2:
+                    account.setAuthorization(false);
+                    shop.getAccountQueue().remove(account);
+                    break;
+                case 0:
+                    main(null);
+                    break;
+                default :
+                    System.out.println("invalid Input!");
+                    verifyAccount();
+                    break;
+            }
+            System.out.println("-------------------------");
+        }
+    }
+    //---------------------------------------------
+
 }

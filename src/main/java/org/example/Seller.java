@@ -38,14 +38,6 @@ public class Seller extends Account{
         this.wallet = wallet;
     }
 
-    public boolean isAuthorization() {
-        return authorization;
-    }
-
-    public void setAuthorization(boolean authorization) {
-        this.authorization = authorization;
-    }
-
     public void addProducts(Product product){
         product.setSeller(this);
         availableProducts.add(product);
@@ -53,5 +45,9 @@ public class Seller extends Account{
 
     public void addToWallet(double amount){
         wallet += amount;
+    }
+
+    public String getInstance(){
+        return "Seller";
     }
 }

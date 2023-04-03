@@ -93,14 +93,6 @@ public class User extends Account{
         this.purchased = purchased;
     }
 
-    public boolean isAuthorization() {
-        return authorization;
-    }
-
-    public void setAuthorization(boolean authorization) {
-        this.authorization = authorization;
-    }
-
     public void addToCart(Product product){
         shoppingCart.add(product);
     }
@@ -142,4 +134,7 @@ public class User extends Account{
         System.out.println("Order confirmed:\n" + order);
     }
 
+    public String getInstance(){
+        return "User";
+    }
 }

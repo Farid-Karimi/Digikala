@@ -9,12 +9,14 @@ public class Order {
     private User user;
     private ArrayList<Product> purchasedProducts;
     private double totalPrice;
+    private boolean verification;
 
     public Order(LocalDate date, User user, ArrayList<Product> purchasedProducts) {
         this.date = date;
         this.user = user;
         this.purchasedProducts = purchasedProducts;
         this.totalPrice = calculateTotalPrice();
+        this.verification = false;
     }
 
     public LocalDate getDate() {
@@ -71,5 +73,12 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
+    public boolean isVerification() {
+        return verification;
+    }
+
+    public void setVerification(boolean verification) {
+        this.verification = verification;
+    }
 }
 
