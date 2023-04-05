@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.concurrent.TransferQueue;
 
 public class Shop {
 
@@ -12,6 +13,7 @@ public class Shop {
     private ArrayList<Order> orderList;
     private ArrayList<Order> orderQueue;
     private ArrayList<Account> accountQueue;
+    private ArrayList<Transfer> transferQueue;
     private double totalProfit;
 
     public Shop(String name, String webAddress, String phoneNumber, double totalProfit) {
@@ -23,6 +25,7 @@ public class Shop {
         this.orderList = new ArrayList<>();
         this.orderQueue = new ArrayList<>();
         this.accountQueue = new ArrayList<>();
+        this.transferQueue = new ArrayList<>();
         this.totalProfit = totalProfit;
     }
 
@@ -137,6 +140,9 @@ public class Shop {
     public void addToVerifyAccount(Account account){
         accountQueue.add(account);
     }
+    public void addToVerifyTransaction(Transfer transfer){
+        transferQueue.add(transfer);
+    }
 
     public ArrayList<Order> getOrderQueue() {
         return orderQueue;
@@ -152,6 +158,14 @@ public class Shop {
 
     public void setAccountQueue(ArrayList<Account> accountQueue) {
         this.accountQueue = accountQueue;
+    }
+
+    public ArrayList<Transfer> getTransferQueue() {
+        return transferQueue;
+    }
+
+    public void setTransferQueue(ArrayList<Transfer> transferQueue) {
+        this.transferQueue = transferQueue;
     }
 
     public void addProfit(double amount){
@@ -186,8 +200,6 @@ public class Shop {
         }
         return matchingProducts;
     }
-
-
 
 
 }

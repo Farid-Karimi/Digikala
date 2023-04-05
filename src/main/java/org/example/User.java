@@ -126,7 +126,7 @@ public class User extends Account{
 
         for (Product product : shoppingCart) {
             product.setQuantity(product.getQuantity() - 1);
-            product.getSeller().addToWallet(product.getPrice() * 0.9);
+            product.getSeller().depositToWallet(product.getPrice() * 0.9);
         }
         shoppingCart.clear();
         shop.addProfit(order.getTotalPrice() * 0.1);

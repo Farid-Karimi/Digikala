@@ -43,11 +43,30 @@ public class Seller extends Account{
         availableProducts.add(product);
     }
 
-    public void addToWallet(double amount){
+    public void depositToWallet(double amount){
         wallet += amount;
+    }
+
+    public void withdrawFromWallet(double amount){
+        wallet -= amount;
     }
 
     public String getInstance(){
         return "Seller";
     }
+
+    public ArrayList<Product> findProductByName(String name){
+        ArrayList<Product> result = new ArrayList<Product>();
+        for (Product p : availableProducts) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
+    public void editExistingProduct(){
+
+    }
+
 }

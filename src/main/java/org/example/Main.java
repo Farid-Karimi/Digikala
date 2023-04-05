@@ -1,5 +1,6 @@
 package org.example;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -111,6 +112,78 @@ public class Main {
     //---------------------------------------------
     public static void sellerMenu(){
 
+        int choice = -1;
+
+            while (choice != 0) {
+                System.out.println("1. View available products");
+                System.out.println("2. Add a new product");
+                System.out.println("3. Transfer Money");
+                System.out.println("4. View wallet balance");
+                System.out.println("5. Remove a product");
+                System.out.println("0. Exit");
+
+                System.out.print("Enter your choice: ");
+                choice = input.nextInt();
+                input.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        for (Product p : seller.getAvailableProducts()){
+                            System.out.println(p);
+                        }
+                        break;
+                    case 2:
+                        addProductBySeller();
+                        break;
+                    case 3:
+                        transferMenu();
+                        break;
+                    case 4:
+                        System.out.println("your balance: ");
+                        System.out.println(seller.getWallet());;
+                        break;
+                    case 5:
+                        System.out.println("Enter product name: ");
+                        String name = input.nextLine();
+                        if (seller.findProductByName(name).size() == 0){
+                            System.out.println("A product with this was not found in ypur list!");
+                            break;
+                        }
+                        for (Product p : seller.findProductByName(name)){
+                            seller.getAvailableProducts().remove(p);
+                        }
+                        System.out.println("product has been successfully removed.");
+                        break;
+                    case 0:
+                        main(null);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+        }
+    }
+    public static void transferMenu(){
+        System.out.println("1. Deposit");
+        System.out.println("2. Withdrawal");
+        System.out.println("Enter your desired operation: ");
+        int choice = input.nextInt();
+        switch(choice){
+            case 1:
+                System.out.println("Enter the amount you want to deposit:");
+                double amount = input.nextDouble();
+                Transfer transfer = new Transfer(seller,amount, LocalDate.of(2001, 11, 9),"Deposit");
+                shop.addToVerifyTransaction(transfer);
+                break;
+            case 2:
+                System.out.println("Enter the amount you want to withdrawal:");
+                amount = input.nextDouble();
+                transfer = new Transfer(seller, amount, LocalDate.of(2001, 11, 9),"Withdrawal");
+                shop.addToVerifyTransaction(transfer);
+                break;
+            default:
+                System.out.println("Invalid Input!");
+                break;
+        }
     }
 
     //---------------------------------------------
@@ -138,7 +211,7 @@ public class Main {
             switch (choice) {
                 case 1:
                     // Add product
-                    addProduct();
+                    addProductByAdmin();
                     break;
 
                 case 2:
@@ -203,8 +276,7 @@ public class Main {
             }
     }
 
-    public static void addProduct(){
-        System.out.println("Enter product category:");
+    public static void addProductByAdmin(){
         System.out.println("Choose a category for products: ");
         System.out.println("1. Electronics");
         System.out.println("2. Books");
@@ -391,6 +463,7 @@ public class Main {
                 System.out.println("Enter product type:");
                 String type = input.nextLine();
                 BeautyProduct beautyProduct = new BeautyProduct(name,price,quantity,comment,brand,type);
+                shop.addProduct(beautyProduct);
                 break;
             case 10:
                 System.out.println("Enter Food name:");
@@ -407,6 +480,230 @@ public class Main {
                 String expirationDate = input.nextLine();
                 Food food = new Food(name,price,quantity,comment,brand,expirationDate);
                 shop.addProduct(food);
+                break;
+            case 0:
+                main(null);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                break;
+        }
+    }
+
+    public static void addProductBySeller(){
+        System.out.println("Choose a category for products: ");
+        System.out.println("1. Electronics");
+        System.out.println("2. Books");
+        System.out.println("3. Clothes");
+        System.out.println("4. Phone");
+        System.out.println("5. Smartwatch");
+        System.out.println("6. Laptop");
+        System.out.println("7. Headphone");
+        System.out.println("8. Toy");
+        System.out.println("9. Beauty Products");
+        System.out.println("10. Food");
+        System.out.println("0. Exit");
+        System.out.print("Enter your choice: ");
+        int choice = input.nextInt();
+
+        switch (choice) {
+            case 1:
+                System.out.println("Enter product name:");
+                String name = input.nextLine();
+                System.out.println("Enter product price:");
+                double price = input.nextDouble();
+                System.out.println("Enter product quantity:");
+                int quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                String comment = input.nextLine();
+                System.out.println("Enter product brand:");
+                String brand = input.nextLine();
+                System.out.println("Enter product model:");
+                String model = input.nextLine();
+                Electronics electronics = new Electronics(name,price,quantity,comment,brand,model);
+                shop.addProduct(electronics);
+                seller.addProducts(electronics);
+                break;
+            case 2:
+                System.out.println("Enter Book name:");
+                name = input.nextLine();
+                System.out.println("Enter Book price:");
+                price = input.nextDouble();
+                System.out.println("Enter Book quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter Book ISBN:");
+                String isbn = input.next();
+                System.out.println("Enter Book author:");
+                String author = input.nextLine();
+                Book book = new Book(name,price,quantity,comment,author,isbn);
+                shop.addProduct(book);
+                seller.addProducts(book);
+                break;
+            case 3:
+                System.out.println("Enter Clothes name:");
+                name = input.nextLine();
+                System.out.println("Enter Clothes price:");
+                price = input.nextDouble();
+                System.out.println("Enter Clothes quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter Clothes size:");
+                String size = input.nextLine();
+                System.out.println("Enter Clothes color:");
+                String color = input.nextLine();
+                System.out.println("Enter Clothes gender:");
+                String gender = input.nextLine();
+                Clothing clothing = new Clothing(name,price,quantity,comment,size,color,gender);
+                shop.addProduct(clothing);
+                seller.addProducts(clothing);
+                break;
+            case 4:
+                System.out.println("Enter phone name:");
+                name = input.nextLine();
+                System.out.println("Enter phone price:");
+                price = input.nextDouble();
+                System.out.println("Enter phone quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter phone brand:");
+                brand = input.nextLine();
+                System.out.println("Enter phone model:");
+                model = input.nextLine();
+                System.out.println("Enter phone screen Size:");
+                String screenSize = input.nextLine();
+                System.out.println("Enter phone operating System:");
+                String operatingSystem = input.nextLine();
+                System.out.println("Enter phone cameraSpecs:");
+                String cameraSpecs = input.nextLine();
+                System.out.println("Enter phone memory capacity:");
+                int memory = input.nextInt();
+                Phone phone = new Phone(name,price,quantity,comment,brand,model,screenSize,operatingSystem,cameraSpecs,memory);
+                shop.addProduct(phone);
+                seller.addProducts(phone);
+                break;
+            case 5:
+                System.out.println("Enter watch name:");
+                name = input.nextLine();
+                System.out.println("Enter watch price:");
+                price = input.nextDouble();
+                System.out.println("Enter watch quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter watch brand:");
+                brand = input.nextLine();
+                System.out.println("Enter watch model:");
+                model = input.nextLine();
+                System.out.println("Enter watch band Type:");
+                String bandType = input.nextLine();
+                System.out.println("Enter watch build Material:");
+                String buildMaterial = input.nextLine();
+                System.out.println("Enter watch screen Size:");
+                screenSize = input.nextLine();
+                SmartWatch smartWatch = new SmartWatch(name,price,quantity,comment,brand,model,bandType,buildMaterial,screenSize);
+                shop.addProduct(smartWatch);
+                seller.addProducts(smartWatch);
+                break;
+            case 6:
+                System.out.println("Enter laptop name:");
+                name = input.nextLine();
+                System.out.println("Enter laptop price:");
+                price = input.nextDouble();
+                System.out.println("Enter laptop quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter laptop brand:");
+                brand = input.nextLine();
+                System.out.println("Enter laptop model:");
+                model = input.nextLine();
+                System.out.println("Enter laptop screen Size:");
+                screenSize = input.nextLine();
+                System.out.println("Enter laptop operating System:");
+                operatingSystem = input.nextLine();
+                System.out.println("Enter laptop CPU model:");
+                String cpu = input.nextLine();
+                System.out.println("Enter laptop GPU model:");
+                String gpu = input.nextLine();
+                Laptop laptop = new Laptop(name,price,quantity,comment,brand,model,screenSize,operatingSystem,cpu,gpu);
+                shop.addProduct(laptop);
+                seller.addProducts(laptop);
+                break;
+            case 7:
+                System.out.println("Enter HeadPhone name:");
+                name = input.nextLine();
+                System.out.println("Enter HeadPhone price:");
+                price = input.nextDouble();
+                System.out.println("Enter HeadPhone quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter HeadPhone brand:");
+                brand = input.nextLine();
+                System.out.println("Enter HeadPhone model:");
+                model = input.nextLine();
+                System.out.println("Enter HeadPhone connection Type:");
+                String connectionType = input.nextLine();
+                System.out.println("Enter HeadPhone battery Capacity:");
+                String batteryCapacity = input.nextLine();
+                Headphone headphone = new Headphone(name,price,quantity,comment,brand,model,connectionType,batteryCapacity);
+                shop.addProduct(headphone);
+                seller.addProducts(headphone);
+                break;
+            case 8:
+                System.out.println("Enter Toy name:");
+                name = input.nextLine();
+                System.out.println("Enter Toy price:");
+                price = input.nextDouble();
+                System.out.println("Enter Toy quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter Toy brand:");
+                brand = input.nextLine();
+                System.out.println("Enter Toy age range:");
+                String ageRange = input.nextLine();
+                Toy toy = new Toy(name,price,quantity,comment,brand,ageRange);
+                shop.addProduct(toy);
+                seller.addProducts(toy);
+                break;
+            case 9:
+                System.out.println("Enter product name:");
+                name = input.nextLine();
+                System.out.println("Enter product price:");
+                price = input.nextDouble();
+                System.out.println("Enter product quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter product brand:");
+                brand = input.nextLine();
+                System.out.println("Enter product type:");
+                String type = input.nextLine();
+                BeautyProduct beautyProduct = new BeautyProduct(name,price,quantity,comment,brand,type);
+                shop.addProduct(beautyProduct);
+                seller.addProducts(beautyProduct);
+                break;
+            case 10:
+                System.out.println("Enter Food name:");
+                name = input.nextLine();
+                System.out.println("Enter Food price:");
+                price = input.nextDouble();
+                System.out.println("Enter Food quantity:");
+                quantity = input.nextInt();
+                System.out.println("Enter any additional info:");
+                comment = input.nextLine();
+                System.out.println("Enter Food brand:");
+                brand = input.nextLine();
+                System.out.println("Enter Food expiration date:");
+                String expirationDate = input.nextLine();
+                Food food = new Food(name,price,quantity,comment,brand,expirationDate);
+                shop.addProduct(food);
+                seller.addProducts(food);
                 break;
             case 0:
                 main(null);
