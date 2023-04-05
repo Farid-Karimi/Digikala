@@ -15,6 +15,7 @@ public class User extends Account{
     private boolean authorization;
 
     public User(String username, String password, String email, String phoneNumber, String address) {
+
         super(username, password);
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -24,6 +25,7 @@ public class User extends Account{
         orders = new ArrayList<>();
         purchased = new ArrayList<>();
         this.authorization = false;
+
     }
 
     public User(String username, String password, String email, String phoneNumber, String address , double wallet) {
@@ -114,9 +116,14 @@ public class User extends Account{
     }
 
     public void viewCart() {
-        System.out.println("Shopping Cart:");
-        for (Product product : shoppingCart) {
-            System.out.println(product);
+        if (shoppingCart.isEmpty()) {
+            System.out.println("Your shopping cart is empty.");
+        }
+        else {
+            System.out.println("Shopping cart contents:");
+            for (Product p : shoppingCart) {
+                System.out.println(p);
+            }
         }
     }
 
@@ -126,6 +133,11 @@ public class User extends Account{
 
     public void updateQuantity(Product product, int quantity) {
         product.setQuantity(quantity);
+    }
+
+    public void viewWalletBalance(){
+        System.out.println("your balance is: ");
+        System.out.println(wallet);
     }
 
     public void checkout(Shop shop) {
@@ -144,5 +156,20 @@ public class User extends Account{
 
     public String getInstance(){
         return "User";
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("USER INFORMATION\n");
+        sb.append("Username:     ").append(getUsername()).append("\n");
+        sb.append("Email:        ").append(email).append("\n");
+        sb.append("Phone number: ").append(phoneNumber).append("\n");
+        sb.append("Address:      ").append(address).append("\n");
+        sb.append("Wallet:       ").append(String.format("$%.2f", wallet)).append("\n");
+        sb.append("Authorization:").append(authorization ? "Yes" : "No").append("\n");
+        return sb.toString();
+
     }
 }
