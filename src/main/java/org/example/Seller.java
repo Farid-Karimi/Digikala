@@ -47,7 +47,7 @@ public class Seller extends Account{
         wallet += amount;
     }
 
-    public void withdrawFromWallet(double amount){
+    public void withdrawalFromWallet(double amount){
         wallet -= amount;
     }
 

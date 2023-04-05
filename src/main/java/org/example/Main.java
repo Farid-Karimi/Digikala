@@ -136,7 +136,7 @@ public class Main {
                         addProductBySeller();
                         break;
                     case 3:
-                        transferMenu();
+                        transferMenuForSeller();
                         break;
                     case 4:
                         System.out.println("your balance: ");
@@ -146,7 +146,7 @@ public class Main {
                         System.out.println("Enter product name: ");
                         String name = input.nextLine();
                         if (seller.findProductByName(name).size() == 0){
-                            System.out.println("A product with this was not found in ypur list!");
+                            System.out.println("A product with this name was not found in your list!");
                             break;
                         }
                         for (Product p : seller.findProductByName(name)){
@@ -162,7 +162,7 @@ public class Main {
                 }
         }
     }
-    public static void transferMenu(){
+    public static void transferMenuForSeller(){
         System.out.println("1. Deposit");
         System.out.println("2. Withdrawal");
         System.out.println("Enter your desired operation: ");
@@ -171,13 +171,17 @@ public class Main {
             case 1:
                 System.out.println("Enter the amount you want to deposit:");
                 double amount = input.nextDouble();
-                Transfer transfer = new Transfer(seller,amount, LocalDate.of(2001, 11, 9),"Deposit");
+                Transfer transfer = new Transfer(seller,amount, LocalDate.now(),"Deposit");
                 shop.addToVerifyTransaction(transfer);
                 break;
             case 2:
                 System.out.println("Enter the amount you want to withdrawal:");
                 amount = input.nextDouble();
-                transfer = new Transfer(seller, amount, LocalDate.of(2001, 11, 9),"Withdrawal");
+                if (seller.getWallet() < amount){
+                    System.out.println("you don't have enough money in your wallet!");
+                    transferMenuForSeller();
+                }
+                transfer = new Transfer(seller, amount, LocalDate.now(),"Withdrawal");
                 shop.addToVerifyTransaction(transfer);
                 break;
             default:
@@ -203,6 +207,7 @@ public class Main {
             System.out.println("7. List accounts");
             System.out.println("8. Show total profit");
             System.out.println("9. Verify Accounts");
+            System.out.println("10. Verify Transfers");
             System.out.println("0. Exit");
 
             System.out.print("Enter your choice: ");
@@ -264,6 +269,9 @@ public class Main {
                 case 9:
                     //authorize Sellers
                     verifyAccount();
+                case 10:
+                    verifyTransfer();
+                    break;
                 case 0:
                     // Exit
                     main(null);
@@ -838,6 +846,51 @@ public class Main {
                 default :
                     System.out.println("invalid Input!");
                     verifyAccount();
+                    break;
+            }
+            System.out.println("-------------------------");
+        }
+    }
+
+    public static void verifyTransfer(){
+        for(Transfer transfer : shop.getTransferQueue()){
+            System.out.println(transfer);
+            System.out.println("do you want this Transfer to be done?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+            System.out.println("0. Exit");
+            int choice = input.nextInt();
+            switch (choice){
+                case 1 :
+                    if(Objects.equals(transfer.getDepositOrWithdrawal(), "Withdrawal")){
+                        if (transfer.isUser()){
+                            transfer.getUser().withdrawalFromWallet(transfer.getAmount());
+                        }
+                        else{
+                            transfer.getSeller().withdrawalFromWallet(transfer.getAmount());
+                        }
+                    }
+                    else{
+                        if (transfer.isUser()){
+                            transfer.getUser().depositToWallet(transfer.getAmount());
+                        }
+                        else{
+                            transfer.getSeller().depositToWallet(transfer.getAmount());
+                        }
+                    }
+                    System.out.println("transfer has been successfully done.");
+                    shop.getTransferQueue().remove(transfer);
+                    break;
+                case 2:
+                    shop.getTransferQueue().remove(transfer);
+                    System.out.println("transfer request has been denied by admin!");
+                    break;
+                case 0:
+                    main(null);
+                    break;
+                default :
+                    System.out.println("invalid Input!");
+                    verifyTransfer();
                     break;
             }
             System.out.println("-------------------------");

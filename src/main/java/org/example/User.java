@@ -69,6 +69,14 @@ public class User extends Account{
         this.wallet = wallet;
     }
 
+    public void depositToWallet(double amount){
+        wallet += amount;
+    }
+
+    public void withdrawalFromWallet(double amount){
+        wallet -= amount;
+    }
+
     public ArrayList<Product> getShoppingCart() {
         return shoppingCart;
     }
