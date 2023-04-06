@@ -16,6 +16,20 @@ public class Main {
     public static void main(String[] args) {
         shop.addAccount(admin);
         user = new User("farid","1234","fkarimi8320@gmail.com","09191771628","thailand");
+        ArrayList<Product> purchased = new ArrayList<>();
+        Product produc = new Product("iphone11",1200, 1, "iphone");
+        produc.setSeller(new Seller("unknown","unknown"));
+        shop.addProduct(produc);
+        purchased.add(new Product("iphone12",1200, 1, "iphone"));
+        purchased.add(new Product("iphone13",1200, 1, "iphone"));
+        purchased.add(new Product("iphone14",1200, 1, "iphone"));
+        for (Product product : purchased){
+            product.setSeller(new Seller("unknown","unknown"));
+        }
+        user.getOrders().add(new Order(LocalDate.now(), user, purchased));
+        user.getOrders().add(new Order(LocalDate.now(), user, purchased));
+        user.getOrders().add(new Order(LocalDate.now(), user, purchased));
+        shop.addAccount(user);
         userMenu();
     }
 
@@ -458,46 +472,36 @@ public class Main {
         switch (choice) {
             case 1:
                 System.out.println(user);
-                userMenu();
                 break;
             case 2:
                 user.viewCart();
-                userMenu();
                 break;
             case 3:
                 addProductToCart();
-                userMenu();
                 break;
             case 4:
                 removeProductFromCart();
-                userMenu();
                 break;
             case 5:
                 user.checkout(shop);
-                userMenu();
                 break;
             case 6:
                 viewOrderHistory();
-                userMenu();
                 break;
             case 7:
                 viewPurchasedProducts();
-                userMenu();
                 break;
             case 8:
                 user.viewWalletBalance();
-                userMenu();
                 break;
             case 9:
                 transferMenuForUser();
-                userMenu();
                 break;
             case 10:
                 findProductByName();
                 break;
             case 11:
                 findProductsByPriceRange();
-                userMenu();
                 break;
             case 0:
                 register();
@@ -506,11 +510,12 @@ public class Main {
                 System.out.println("Invalid choice. Try again.");
                 break;
         }
-
+        userMenu();
     }
 
     public static void findProductByName(){
         System.out.println("Enter products name: ");
+        input.nextLine();
         String name = input.nextLine();
         if(!shop.doesProductExist(name)){
             System.out.println("the product you're looking for doesn't exist!");
@@ -534,14 +539,19 @@ public class Main {
     }
 
     public static void addProductToCart() {
-        System.out.print("Enter product name: ");
+        System.out.println("Enter product name: ");
+        input.nextLine();
         String productName = input.nextLine();
         ArrayList<Product> result = shop.findProductByName(productName);
-        if (result.size() == 0) {
+        if (result.isEmpty()) {
             System.out.println("Product not found.");
         }
         else {
             for (Product product : result){
+                if (product.getQuantity() == 0 ){
+                    System.out.println("this product is unavailable for now!");
+                    return;
+                }
                 user.addToCart(product);
                 System.out.println(product.getName() + " has been added to your cart.");
             }
@@ -551,6 +561,7 @@ public class Main {
     public static void removeProductFromCart(){
 
         System.out.print("Enter product name: ");
+        input.nextLine();
         String productName = input.nextLine();
         ArrayList<Product> result = shop.findProductByName(productName);
         if (result.size() == 0) {
@@ -565,12 +576,20 @@ public class Main {
     }
 
     public static void viewOrderHistory(){
+        if (user.getOrders().isEmpty()){
+            System.out.println("You dont have any previous orders!");
+            return;
+        }
         for (Order order : user.getOrders()){
             System.out.println(order);
         }
     }
 
     public static void viewPurchasedProducts(){
+        if (user.getPurchased().isEmpty()){
+            System.out.println("You don't have any purchased products!");
+            return;
+        }
         for (Product product : user.getPurchased()){
             System.out.println(product);
         }
@@ -612,11 +631,12 @@ public class Main {
             System.out.println("3. Add Account");
             System.out.println("4. Add profit");
             System.out.println("5. List products");
-            System.out.println("6. List orders");
+            System.out.println("6. Verify Orders");
             System.out.println("7. List accounts");
             System.out.println("8. Show total profit");
             System.out.println("9. Verify Accounts");
             System.out.println("10. Verify Transfers");
+            System.out.println("11. find Account");
             System.out.println("0. Exit");
 
             System.out.print("Enter your choice: ");
@@ -647,16 +667,11 @@ public class Main {
                     System.out.println("Product list:");
                     for (Product p : shop.getProductList()) {
                         System.out.println(p);
-                        System.out.println("-------------------------");
                     }
                     break;
 
                 case 6:
-                    System.out.println("Order list:");
-                    for (Order o : shop.getOrderList()) {
-                        System.out.println(o);
-                        System.out.println("-------------------------");
-                    }
+                    verifyOrder();
                     break;
 
                 case 7:
@@ -674,11 +689,19 @@ public class Main {
 
                 case 9:
                     verifyAccount();
+                    break;
+
                 case 10:
                     verifyTransfer();
                     break;
+
+                case 11:
+                    findAccountByName();
+                    break;
+
                 case 0:
                     register();
+                    break;
 
                 default:
                     // Invalid choice
@@ -687,6 +710,13 @@ public class Main {
                     break;
             }
             adminMenu();
+    }
+
+    public static void findAccountByName(){
+        System.out.println("Enter username:");
+        input.nextLine();
+        String name = input.nextLine();
+        System.out.println(shop.findAccountByName(name));
     }
 
     public static void addProductByAdmin(){
@@ -1020,6 +1050,13 @@ public class Main {
             switch (choice) {
                 case 1:
                     order.setVerification(true);
+                    for (Product product : order.getPurchasedProducts()) {
+                        product.setQuantity(product.getQuantity() - 1);
+                        product.getSeller().depositToWallet(product.getPrice() * 0.9);
+                        order.getUser().addToPurchased(product);
+                    }
+                    shop.addProfit(order.getTotalPrice() * 0.1);
+                    order.getUser().withdrawalFromWallet(order.getTotalPrice());
                     iterator.remove();
                     break;
                 case 2:
@@ -1033,7 +1070,6 @@ public class Main {
                     System.out.println("Invalid Input!");
                     break;
             }
-            System.out.println("-------------------------");
         }
         adminMenu();
     }

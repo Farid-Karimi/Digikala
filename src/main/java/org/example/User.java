@@ -141,17 +141,21 @@ public class User extends Account{
     }
 
     public void checkout(Shop shop) {
-        Order order = new Order(LocalDate.now(), this, this.shoppingCart);
-        shop.getOrderList().add(order);
-
-        for (Product product : shoppingCart) {
-            product.setQuantity(product.getQuantity() - 1);
-            product.getSeller().depositToWallet(product.getPrice() * 0.9);
+        if (shoppingCart.isEmpty()){
+            System.out.println("your cart is empty!");
+            return;
         }
-        shoppingCart.clear();
-        shop.addProfit(order.getTotalPrice() * 0.1);
+        ArrayList<Product> placeHolder = new ArrayList<>(shoppingCart);
+        Order order = new Order(LocalDate.now(), this, placeHolder);
+        if(order.getTotalPrice() > wallet){
+            System.out.println("You don't have enough money!");
+            return;
+        }
+        orders.add(order);
+        shop.getOrderQueue().add(order);
 
         System.out.println("Order confirmed:\n" + order);
+        this.getShoppingCart().clear();
     }
 
     public String getInstance(){
@@ -167,7 +171,7 @@ public class User extends Account{
         sb.append("Email:        ").append(email).append("\n");
         sb.append("Phone number: ").append(phoneNumber).append("\n");
         sb.append("Address:      ").append(address).append("\n");
-        sb.append("Wallet:       ").append(String.format("$%.2f", wallet)).append("\n");
+        sb.append("Balance:       ").append(String.format("$%.2f", wallet)).append("\n");
         sb.append("Authorization:").append(authorization ? "Yes" : "No").append("\n");
         return sb.toString();
 

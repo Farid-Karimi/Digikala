@@ -48,10 +48,10 @@ public class Order {
         StringBuilder info = new StringBuilder();
         info.append("------------Order details------------\n");
         info.append("Date: ").append(date).append("\n");
-        info.append("Buyer: ").append(user).append("\n");
+        info.append("Buyer: ").append(user.getUsername()).append("\n");
         info.append("Purchased products:\n");
-        for (Product product : purchasedProducts) {
-            info.append("- ").append(product).append("\n");
+        for (Product product : this.getPurchasedProducts()) {
+            info.append("- ").append(product.getName()).append("\n");
         }
         info.append("Total price: $").append(String.format("%.2f", totalPrice));
         return info.toString();
