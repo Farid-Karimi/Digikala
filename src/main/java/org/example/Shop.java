@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.TransferQueue;
 
 public class Shop {
@@ -50,7 +51,7 @@ public class Shop {
 
     public boolean doesAccountExist(String name){
         for (Account acc : accountList) {
-            if (acc.getUsername().equalsIgnoreCase(name)) {
+            if (Objects.equals(acc.getUsername(), name)) {
                 return true;
             }
         }
@@ -130,6 +131,7 @@ public class Shop {
     public void addOrder(Order order){
         orderList.add(order);
     }
+
     public void addToVerifyOrder(Order order){
         orderQueue.add(order);
     }
@@ -137,9 +139,11 @@ public class Shop {
     public void addAccount(Account account){
         accountList.add(account);
     }
+
     public void addToVerifyAccount(Account account){
         accountQueue.add(account);
     }
+
     public void addToVerifyTransaction(Transfer transfer){
         transferQueue.add(transfer);
     }

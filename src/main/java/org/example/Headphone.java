@@ -28,7 +28,11 @@ public class Headphone extends Electronics {
     }
 
     public String toString() {
-        return super.toString() + "\nConnection Type: " + connectionType + "\nNoise Cancellation: " + batteryCapacity;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Connection Type: ").append(connectionType).append("\n");
+        sb.append("Noise Cancellation: ").append(batteryCapacity).append("\n");
+        return sb.toString();
     }
 }
 

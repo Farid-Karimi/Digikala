@@ -28,6 +28,10 @@ public class Book extends Product {
     }
 
     public String toString() {
-        return super.toString() + "\nAuthor: " + author + "\nISBN: " + isbn;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Author:    ").append(author).append("\n");
+        sb.append("ISBN:      ").append(isbn).append("\n");
+        return sb.toString();
     }
 }

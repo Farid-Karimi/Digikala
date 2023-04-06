@@ -28,6 +28,10 @@ public class Food extends Product {
     }
 
     public String toString() {
-        return super.toString() + "\nBrand: " + brand + "\nExpiration Date: " + expirationDate;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Brand:     ").append(brand).append("\n");
+        sb.append("Expiration Date: ").append(expirationDate).append("\n");
+        return sb.toString();
     }
 }

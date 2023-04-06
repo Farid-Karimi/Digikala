@@ -28,6 +28,10 @@ public class Toy extends Product {
     }
 
     public String toString() {
-        return super.toString() + "\nBrand: " + brand + "\nAge Range: " + ageRange;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Brand:     ").append(brand).append("\n");
+        sb.append("Age Range: ").append(ageRange).append("\n");
+        return sb.toString();
     }
 }

@@ -28,7 +28,11 @@ public class BeautyProduct extends Product {
     }
 
     public String toString() {
-        return super.toString() + "\nBrand: " + brand + "\nType: " + type;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Brand:     ").append(brand).append("\n");
+        sb.append("type:      ").append(type).append("\n");
+        return sb.toString();
     }
 }
 

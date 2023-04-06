@@ -28,6 +28,10 @@ public class Electronics extends Product {
     }
 
     public String toString() {
-        return super.toString() + "\nBrand: " + brand + "\nModel: " + model;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Brand:     ").append(brand).append("\n");
+        sb.append("Model:     ").append(model).append("\n");
+        return sb.toString();
     }
 }

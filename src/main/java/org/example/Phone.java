@@ -48,6 +48,10 @@ public class Phone extends Electronics {
     }
 
     public String toString() {
-        return super.toString() + "\nScreen Size: " + screenSize + "\nOperating System: " + operatingSystem;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Screen Size: ").append(screenSize).append("\n");
+        sb.append("Operating System: ").append(operatingSystem).append("\n");
+        return sb.toString();
     }
 }

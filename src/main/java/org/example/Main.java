@@ -14,9 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
         shop.addAccount(admin);
-        shop.addAccount(user);
-        shop.addAccount(seller);
-        register();
+        addProductByAdmin();
     }
 
     //---------------------------------------------
@@ -38,12 +36,19 @@ public class Main {
 
         if(choice == 2){
             createAccount();
+
         }
         System.out.println("Enter username:");
         String username = input.nextLine();
         System.out.println("Enter password:");
         String password = input.nextLine();
-        if (shop.doesAccountExist(username) && Objects.equals(shop.findAccountByName(username).getPassword(), password)){
+
+        if (!shop.doesAccountExist(username)){
+            System.out.println("username is incorrect!");
+            register();
+        }
+
+        if (Objects.equals(shop.findAccountByName(username).getPassword(), password)){
 
             if(Objects.equals(shop.findAccountByName(username).getInstance(), "Admin")){
                 admin =(Admin) shop.findAccountByName(username);
@@ -58,9 +63,13 @@ public class Main {
                 userMenu();
             }
             else{
-                System.out.println("Oh Nooooooooooo!");
+                System.out.println("Oh Noooooo!");
             }
 
+        }
+        else{
+            System.out.println("password is incorrect!");
+            register();
         }
 
     }
@@ -72,6 +81,7 @@ public class Main {
         System.out.println("Choose your role :");
 
         int choice = input.nextInt();
+        input.nextLine();
 
         switch (choice){
             case 1:
@@ -85,7 +95,7 @@ public class Main {
                 double wallet = input.nextDouble();
                 System.out.println("Enter password:");
                 String password = input.nextLine();
-                Seller seller = new Seller(username,password,wallet);
+                Seller seller = new Seller(username, password, wallet);
                 shop.addToVerifyAccount(seller);
                 break;
             case 2:
@@ -105,12 +115,13 @@ public class Main {
                 shop.addToVerifyAccount(user);
                 break;
             case 0:
-                main(null);
+                register();
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
                 break;
         }
+        register();
     }
 
     //------------------Seller-----------------------
@@ -159,7 +170,7 @@ public class Main {
                         System.out.println("product has been successfully removed.");
                         break;
                     case 0:
-                        main(null);
+                        register();
                         break;
                     default:
                         System.out.println("Invalid choice. Please try again.");
@@ -411,7 +422,7 @@ public class Main {
                 seller.addProducts(food);
                 break;
             case 0:
-                main(null);
+                register();
                 break;
             default:
                 System.out.println("Invalid choice.");
@@ -475,7 +486,7 @@ public class Main {
                 userMenu();
                 break;
             case 0:
-                main(null);
+                register();
                 break;
             default:
                 System.out.println("Invalid choice. Try again.");
@@ -559,7 +570,7 @@ public class Main {
             System.out.println("ADMIN MENU");
             System.out.println("1. Add product");
             System.out.println("2. verify order");
-            System.out.println("3. Add Admin");
+            System.out.println("3. Add Account");
             System.out.println("4. Add profit");
             System.out.println("5. List products");
             System.out.println("6. List orders");
@@ -596,6 +607,7 @@ public class Main {
                     System.out.println("Product list:");
                     for (Product p : shop.getProductList()) {
                         System.out.println(p);
+                        System.out.println("-------------------------");
                     }
                     break;
 
@@ -603,6 +615,7 @@ public class Main {
                     System.out.println("Order list:");
                     for (Order o : shop.getOrderList()) {
                         System.out.println(o);
+                        System.out.println("-------------------------");
                     }
                     break;
 
@@ -610,6 +623,7 @@ public class Main {
                     System.out.println("Account list:");
                     for (Account acc : shop.getAccountList()) {
                         System.out.println(acc);
+                        System.out.println("-------------------------");
                     }
                     break;
 
@@ -623,7 +637,7 @@ public class Main {
                     verifyTransfer();
                     break;
                 case 0:
-                    main(null);
+                    register();
 
                 default:
                     // Invalid choice
@@ -631,6 +645,7 @@ public class Main {
                     adminMenu();
                     break;
             }
+            adminMenu();
     }
 
     public static void addProductByAdmin(){
@@ -648,10 +663,10 @@ public class Main {
         System.out.println("0. Exit");
         System.out.print("Enter your choice: ");
         int choice = input.nextInt();
-        input.nextLine();
 
         switch (choice) {
             case 1:
+                input.nextLine();
                 System.out.println("Enter product name:");
                 String name = input.nextLine();
                 System.out.println("Enter product price:");
@@ -659,12 +674,20 @@ public class Main {
                 System.out.println("Enter product quantity:");
                 int quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 String comment = input.nextLine();
                 System.out.println("Enter product brand:");
                 String brand = input.nextLine();
                 System.out.println("Enter product model:");
                 String model = input.nextLine();
                 Electronics electronics = new Electronics(name,price,quantity,comment,brand,model);
+                System.out.println(electronics.getName());
+                System.out.println(electronics.getPrice());
+                System.out.println(electronics.getQuantity());
+                System.out.println(electronics.getComment());
+                System.out.println(electronics.getBrand());
+                System.out.println(electronics.getModel());
+                electronics.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(electronics);
                 break;
             case 2:
@@ -677,10 +700,11 @@ public class Main {
                 System.out.println("Enter any additional info:");
                 comment = input.nextLine();
                 System.out.println("Enter Book ISBN:");
-                String isbn = input.next();
+                String isbn = input.nextLine();
                 System.out.println("Enter Book author:");
                 String author = input.nextLine();
                 Book book = new Book(name,price,quantity,comment,author,isbn);
+                book.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(book);
                 break;
             case 3:
@@ -699,6 +723,7 @@ public class Main {
                 System.out.println("Enter Clothes gender:");
                 String gender = input.nextLine();
                 Clothing clothing = new Clothing(name,price,quantity,comment,size,color,gender);
+                clothing.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(clothing);
                 break;
             case 4:
@@ -723,6 +748,7 @@ public class Main {
                 System.out.println("Enter phone memory capacity:");
                 int memory = input.nextInt();
                 Phone phone = new Phone(name,price,quantity,comment,brand,model,screenSize,operatingSystem,cameraSpecs,memory);
+                phone.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(phone);
                 break;
             case 5:
@@ -745,6 +771,7 @@ public class Main {
                 System.out.println("Enter watch screen Size:");
                 screenSize = input.nextLine();
                 SmartWatch smartWatch = new SmartWatch(name,price,quantity,comment,brand,model,bandType,buildMaterial,screenSize);
+                smartWatch.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(smartWatch);
                 break;
             case 6:
@@ -769,6 +796,7 @@ public class Main {
                 System.out.println("Enter laptop GPU model:");
                 String gpu = input.nextLine();
                 Laptop laptop = new Laptop(name,price,quantity,comment,brand,model,screenSize,operatingSystem,cpu,gpu);
+                laptop.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(laptop);
                 break;
             case 7:
@@ -789,6 +817,7 @@ public class Main {
                 System.out.println("Enter HeadPhone battery Capacity:");
                 String batteryCapacity = input.nextLine();
                 Headphone headphone = new Headphone(name,price,quantity,comment,brand,model,connectionType,batteryCapacity);
+                headphone.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(headphone);
                 break;
             case 8:
@@ -805,6 +834,7 @@ public class Main {
                 System.out.println("Enter Toy age range:");
                 String ageRange = input.nextLine();
                 Toy toy = new Toy(name,price,quantity,comment,brand,ageRange);
+                toy.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(toy);
                 break;
             case 9:
@@ -821,6 +851,7 @@ public class Main {
                 System.out.println("Enter product type:");
                 String type = input.nextLine();
                 BeautyProduct beautyProduct = new BeautyProduct(name,price,quantity,comment,brand,type);
+                beautyProduct.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(beautyProduct);
                 break;
             case 10:
@@ -837,15 +868,17 @@ public class Main {
                 System.out.println("Enter Food expiration date:");
                 String expirationDate = input.nextLine();
                 Food food = new Food(name,price,quantity,comment,brand,expirationDate);
+                food.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(food);
                 break;
             case 0:
-                main(null);
+                adminMenu();
                 break;
             default:
                 System.out.println("Invalid choice.");
                 break;
         }
+        adminMenu();
     }
 
     public static void addAccount(){
@@ -856,6 +889,7 @@ public class Main {
         System.out.println("Enter account type:");
 
         int choice = input.nextInt();
+        input.nextLine();
 
         switch (choice){
             case 1:
@@ -863,7 +897,7 @@ public class Main {
                 String username = input.nextLine();
                 if (shop.doesAccountExist(username)){
                     System.out.println("sorry this username already exist!");
-                    createAccount();
+                    addAccount();
                 }
                 System.out.println("Enter email:");
                 String email = input.nextLine();
@@ -873,6 +907,7 @@ public class Main {
                 shop.addAccount(admin1);
                 break;
             case 2:
+                input.nextLine();
                 System.out.println("Enter username:");
                 username = input.nextLine();
                 if (shop.doesAccountExist(username)){
@@ -887,6 +922,7 @@ public class Main {
                 shop.addAccount(seller);
                 break;
             case 3:
+                input.nextLine();
                 System.out.println("Enter username:");
                 username = input.nextLine();
                 if (shop.doesAccountExist(username)){
@@ -903,11 +939,11 @@ public class Main {
                 String phoneNumber = input.nextLine();
                 System.out.println("Enter address:");
                 String address = input.nextLine();
-                User user = new User(username,password,email,phoneNumber,address,wallet);
+                User user = new User(username, password, email, phoneNumber, address, wallet);
                 shop.addAccount(user);
                 break;
             case 0:
-                main(null);
+                adminMenu();
                 break;
             default:
                 System.out.println("Invalid choice. Please try again!");
@@ -936,7 +972,7 @@ public class Main {
                     shop.getOrderQueue().remove(order);
                     break;
                 case 0:
-                    main(null);
+                    adminMenu();
                     break;
                 default :
                     System.out.println("Invalid Input!");
@@ -945,6 +981,7 @@ public class Main {
             }
             System.out.println("-------------------------");
         }
+        adminMenu();
     }
 
     public static void verifyAccount(){
@@ -967,7 +1004,7 @@ public class Main {
                     shop.getAccountQueue().remove(account);
                     break;
                 case 0:
-                    main(null);
+                    adminMenu();
                     break;
                 default :
                     System.out.println("invalid Input!");
@@ -976,6 +1013,7 @@ public class Main {
             }
             System.out.println("-------------------------");
         }
+        adminMenu();
     }
 
     public static void verifyTransfer(){
@@ -1012,7 +1050,7 @@ public class Main {
                     System.out.println("transfer request has been denied by admin!");
                     break;
                 case 0:
-                    main(null);
+                    adminMenu();
                     break;
                 default :
                     System.out.println("invalid Input!");
@@ -1021,6 +1059,7 @@ public class Main {
             }
             System.out.println("-------------------------");
         }
+        adminMenu();
     }
     //---------------------------------------------
 

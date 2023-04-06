@@ -38,6 +38,10 @@ public class Clothing extends Product {
     }
 
     public String toString() {
-        return super.toString() + "\nSize: " + size + "\nColor: " + color;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Size:      ").append(size).append("\n");
+        sb.append("Color:     ").append(color).append("\n");
+        return sb.toString();
     }
 }

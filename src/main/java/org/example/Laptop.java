@@ -49,6 +49,13 @@ public class Laptop extends Electronics {
     }
 
     public String toString() {
-        return super.toString() + "\nScreen Size: " + screenSize + "\nOperating System: " + operatingSystem + "\nProcessor Type: " + CPU;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Screen Size: ").append(screenSize).append("\n");
+        sb.append("Operating System: ").append(operatingSystem).append("\n");
+        sb.append("graphic card type: ").append(GPU).append("\n");
+        sb.append("Processor Type:").append(CPU).append("\n");
+        return sb.toString();
+
     }
 }

@@ -38,6 +38,10 @@ public class SmartWatch extends Electronics{
     }
 
     public String toString() {
-        return super.toString() + "\nBand Type: " + bandType + "\nConnectivity: " + buildMaterial;
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append("Band Type: ").append(bandType).append("\n");
+        sb.append("Connectivity: ").append(buildMaterial).append("\n");
+        return sb.toString();
     }
 }
