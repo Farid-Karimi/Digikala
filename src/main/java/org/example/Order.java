@@ -46,7 +46,7 @@ public class Order {
     @Override
     public String toString() {
         StringBuilder info = new StringBuilder();
-        info.append("Order details:\n");
+        info.append("------------Order details------------\n");
         info.append("Date: ").append(date).append("\n");
         info.append("Buyer: ").append(user).append("\n");
         info.append("Purchased products:\n");

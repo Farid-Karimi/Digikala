@@ -65,8 +65,21 @@ public class Seller extends Account{
         return result;
     }
 
-    public void editExistingProduct(){
-
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("------------Seller Account------------\n");
+        sb.append("Username: ").append(getUsername()).append("\n");
+        sb.append("Password: ").append(getPassword()).append("\n");
+        sb.append("Wallet balance: $").append(String.format("%.2f", wallet)).append("\n");
+        sb.append("Authorization status: ").append(authorization ? "Authorized" : "Not authorized").append("\n");
+        sb.append("Available products:\n");
+        for (Product product : availableProducts) {
+            sb.append("- ").append(product.getName()).append(", $").append(String.format("%.2f", product.getPrice()));
+            sb.append(", quantity: ").append(product.getQuantity()).append("\n");
+        }
+        return sb.toString();
     }
+
 
 }

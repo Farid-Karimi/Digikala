@@ -79,7 +79,7 @@ public class Transfer {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("TRANSFER\n");
+        sb.append("------------TRANSFER------------\n");
         if (isUser){
             sb.append("Name:  ").append(user.getUsername()).append("\n");
         }

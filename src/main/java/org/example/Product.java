@@ -71,7 +71,7 @@ public class Product {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("PRODUCT\n");
+        sb.append("------------PRODUCT------------\n");
         sb.append("ID:        ").append(id).append("\n");
         sb.append("Name:      ").append(name).append("\n");
         sb.append("Price:     ").append(String.format("$%.2f", price)).append("\n");

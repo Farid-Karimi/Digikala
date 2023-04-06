@@ -2,6 +2,7 @@ package org.example;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -14,7 +15,8 @@ public class Main {
 
     public static void main(String[] args) {
         shop.addAccount(admin);
-        addProductByAdmin();
+        user = new User("farid","1234","fkarimi8320@gmail.com","09191771628","thailand");
+        userMenu();
     }
 
     //---------------------------------------------
@@ -75,16 +77,16 @@ public class Main {
     }
 
     public static void createAccount(){
-        System.out.println("1. User");
-        System.out.println("2. Seller");
+        System.out.println("1. Seller");
+        System.out.println("2. User");
         System.out.println("0. Exit");
         System.out.println("Choose your role :");
 
         int choice = input.nextInt();
-        input.nextLine();
 
         switch (choice){
             case 1:
+                input.nextLine();
                 System.out.println("Enter username:");
                 String username = input.nextLine();
                 if (shop.doesAccountExist(username)){
@@ -94,16 +96,19 @@ public class Main {
                 System.out.println("Enter amount of money:");
                 double wallet = input.nextDouble();
                 System.out.println("Enter password:");
+                input.nextLine();
                 String password = input.nextLine();
                 Seller seller = new Seller(username, password, wallet);
                 shop.addToVerifyAccount(seller);
                 break;
             case 2:
+                input.nextLine();
                 System.out.println("Enter username:");
                 username = input.nextLine();
                 System.out.println("Enter amount of money:");
                 wallet = input.nextDouble();
                 System.out.println("Enter password:");
+                input.nextLine();
                 password = input.nextLine();
                 System.out.println("Enter email:");
                 String email = input.nextLine();
@@ -130,6 +135,7 @@ public class Main {
         int choice = -1;
 
             while (choice != 0) {
+                System.out.println("------------SELLER MENU------------");
                 System.out.println("1. View available products");
                 System.out.println("2. Add a new product");
                 System.out.println("3. Transfer Money");
@@ -139,7 +145,6 @@ public class Main {
 
                 System.out.print("Enter your choice: ");
                 choice = input.nextInt();
-                input.nextLine();
 
                 switch (choice) {
                     case 1:
@@ -433,7 +438,7 @@ public class Main {
     //-------------------User---------------------
     public static void userMenu(){
 
-        System.out.println("USER MENU");
+        System.out.println("------------USER MENU------------");
         System.out.println("1. View profile");
         System.out.println("2. View shopping cart");
         System.out.println("3. Add product to cart");
@@ -443,6 +448,8 @@ public class Main {
         System.out.println("7. View purchased products");
         System.out.println("8. View wallet balance");
         System.out.println("9. Add funds to wallet");
+        System.out.println("10. find products by name");
+        System.out.println("11. find products by price range");
         System.out.println("0. Exit");
         System.out.print("Enter your choice: ");
 
@@ -485,12 +492,44 @@ public class Main {
                 transferMenuForUser();
                 userMenu();
                 break;
+            case 10:
+                findProductByName();
+                break;
+            case 11:
+                findProductsByPriceRange();
+                userMenu();
+                break;
             case 0:
                 register();
                 break;
             default:
                 System.out.println("Invalid choice. Try again.");
                 break;
+        }
+
+    }
+
+    public static void findProductByName(){
+        System.out.println("Enter products name: ");
+        String name = input.nextLine();
+        if(!shop.doesProductExist(name)){
+            System.out.println("the product you're looking for doesn't exist!");
+            userMenu();
+        }
+        System.out.println("Your Results: ");
+        for (Product product : shop.findProductByName(name)){
+            System.out.println(product);
+        }
+    }
+
+    public static void findProductsByPriceRange(){
+        System.out.print("Enter minimum price: ");
+        double minPrice = input.nextDouble();
+        System.out.print("Enter maximum price: ");
+        double maxPrice = input.nextDouble();
+
+        for (Product product : shop.findProductsByPriceRange(minPrice, maxPrice)) {
+            System.out.println(product);
         }
     }
 
@@ -567,7 +606,7 @@ public class Main {
 
     //-------------------Admin--------------------
     public static void adminMenu(){
-            System.out.println("ADMIN MENU");
+            System.out.println("------------ADMIN MENU------------");
             System.out.println("1. Add product");
             System.out.println("2. verify order");
             System.out.println("3. Add Account");
@@ -601,6 +640,7 @@ public class Main {
                     double profitAmount = input.nextDouble();
                     shop.addProfit(profitAmount);
                     System.out.println("Profit added successfully!");
+                    System.out.println("-------------------------");
                     break;
 
                 case 5:
@@ -623,12 +663,13 @@ public class Main {
                     System.out.println("Account list:");
                     for (Account acc : shop.getAccountList()) {
                         System.out.println(acc);
-                        System.out.println("-------------------------");
                     }
                     break;
 
                 case 8:
+                    System.out.println("-------------------------");
                     System.out.println("Total profit: " + shop.getTotalProfit());
+                    System.out.println("-------------------------");
                     break;
 
                 case 9:
@@ -681,16 +722,11 @@ public class Main {
                 System.out.println("Enter product model:");
                 String model = input.nextLine();
                 Electronics electronics = new Electronics(name,price,quantity,comment,brand,model);
-                System.out.println(electronics.getName());
-                System.out.println(electronics.getPrice());
-                System.out.println(electronics.getQuantity());
-                System.out.println(electronics.getComment());
-                System.out.println(electronics.getBrand());
-                System.out.println(electronics.getModel());
                 electronics.setSeller(new Seller("unknown", "unknown"));
                 shop.addProduct(electronics);
                 break;
             case 2:
+                input.nextLine();
                 System.out.println("Enter Book name:");
                 name = input.nextLine();
                 System.out.println("Enter Book price:");
@@ -698,6 +734,7 @@ public class Main {
                 System.out.println("Enter Book quantity:");
                 quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 comment = input.nextLine();
                 System.out.println("Enter Book ISBN:");
                 String isbn = input.nextLine();
@@ -708,6 +745,7 @@ public class Main {
                 shop.addProduct(book);
                 break;
             case 3:
+                input.nextLine();
                 System.out.println("Enter Clothes name:");
                 name = input.nextLine();
                 System.out.println("Enter Clothes price:");
@@ -715,6 +753,7 @@ public class Main {
                 System.out.println("Enter Clothes quantity:");
                 quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 comment = input.nextLine();
                 System.out.println("Enter Clothes size:");
                 String size = input.nextLine();
@@ -727,6 +766,7 @@ public class Main {
                 shop.addProduct(clothing);
                 break;
             case 4:
+                input.nextLine();
                 System.out.println("Enter phone name:");
                 name = input.nextLine();
                 System.out.println("Enter phone price:");
@@ -734,6 +774,7 @@ public class Main {
                 System.out.println("Enter phone quantity:");
                 quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 comment = input.nextLine();
                 System.out.println("Enter phone brand:");
                 brand = input.nextLine();
@@ -752,6 +793,7 @@ public class Main {
                 shop.addProduct(phone);
                 break;
             case 5:
+                input.nextLine();
                 System.out.println("Enter watch name:");
                 name = input.nextLine();
                 System.out.println("Enter watch price:");
@@ -759,6 +801,7 @@ public class Main {
                 System.out.println("Enter watch quantity:");
                 quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 comment = input.nextLine();
                 System.out.println("Enter watch brand:");
                 brand = input.nextLine();
@@ -775,6 +818,7 @@ public class Main {
                 shop.addProduct(smartWatch);
                 break;
             case 6:
+                input.nextLine();
                 System.out.println("Enter laptop name:");
                 name = input.nextLine();
                 System.out.println("Enter laptop price:");
@@ -782,6 +826,7 @@ public class Main {
                 System.out.println("Enter laptop quantity:");
                 quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 comment = input.nextLine();
                 System.out.println("Enter laptop brand:");
                 brand = input.nextLine();
@@ -800,12 +845,14 @@ public class Main {
                 shop.addProduct(laptop);
                 break;
             case 7:
+                input.nextLine();
                 System.out.println("Enter HeadPhone name:");
                 name = input.nextLine();
                 System.out.println("Enter HeadPhone price:");
                 price = input.nextDouble();
                 System.out.println("Enter HeadPhone quantity:");
                 quantity = input.nextInt();
+                input.nextLine();
                 System.out.println("Enter any additional info:");
                 comment = input.nextLine();
                 System.out.println("Enter HeadPhone brand:");
@@ -821,6 +868,7 @@ public class Main {
                 shop.addProduct(headphone);
                 break;
             case 8:
+                input.nextLine();
                 System.out.println("Enter Toy name:");
                 name = input.nextLine();
                 System.out.println("Enter Toy price:");
@@ -828,6 +876,7 @@ public class Main {
                 System.out.println("Enter Toy quantity:");
                 quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 comment = input.nextLine();
                 System.out.println("Enter Toy brand:");
                 brand = input.nextLine();
@@ -838,6 +887,7 @@ public class Main {
                 shop.addProduct(toy);
                 break;
             case 9:
+                input.nextLine();
                 System.out.println("Enter product name:");
                 name = input.nextLine();
                 System.out.println("Enter product price:");
@@ -845,6 +895,7 @@ public class Main {
                 System.out.println("Enter product quantity:");
                 quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 comment = input.nextLine();
                 System.out.println("Enter product brand:");
                 brand = input.nextLine();
@@ -855,6 +906,7 @@ public class Main {
                 shop.addProduct(beautyProduct);
                 break;
             case 10:
+                input.nextLine();
                 System.out.println("Enter Food name:");
                 name = input.nextLine();
                 System.out.println("Enter Food price:");
@@ -862,6 +914,7 @@ public class Main {
                 System.out.println("Enter Food quantity:");
                 quantity = input.nextInt();
                 System.out.println("Enter any additional info:");
+                input.nextLine();
                 comment = input.nextLine();
                 System.out.println("Enter Food brand:");
                 brand = input.nextLine();
@@ -889,10 +942,10 @@ public class Main {
         System.out.println("Enter account type:");
 
         int choice = input.nextInt();
-        input.nextLine();
 
         switch (choice){
             case 1:
+                input.nextLine();
                 System.out.println("Enter username:");
                 String username = input.nextLine();
                 if (shop.doesAccountExist(username)){
@@ -912,11 +965,12 @@ public class Main {
                 username = input.nextLine();
                 if (shop.doesAccountExist(username)){
                     System.out.println("sorry this username already exist!");
-                    createAccount();
+                    addAccount();
                 }
                 System.out.println("Enter amount of money:");
                 double wallet = input.nextDouble();
                 System.out.println("Enter password:");
+                input.nextLine();
                 password = input.nextLine();
                 Seller seller = new Seller(username,password,wallet);
                 shop.addAccount(seller);
@@ -927,7 +981,7 @@ public class Main {
                 username = input.nextLine();
                 if (shop.doesAccountExist(username)){
                     System.out.println("sorry this username already exist!");
-                    createAccount();
+                    addAccount();
                 }
                 System.out.println("Enter amount of money:");
                 wallet = input.nextDouble();
@@ -950,33 +1004,33 @@ public class Main {
                 addAccount();
                 break;
         }
-
+        adminMenu();
     }
 
-    public static void verifyOrder(){
-
-        for(Order order : shop.getOrderQueue()){
+    public static void verifyOrder() {
+        Iterator<Order> iterator = shop.getOrderQueue().iterator();
+        while (iterator.hasNext()) {
+            Order order = iterator.next();
             System.out.println(order);
             System.out.println("do you want this order to be verified?");
             System.out.println("1. Yes");
             System.out.println("2. No");
             System.out.println("0. Exit");
             int choice = input.nextInt();
-            switch (choice){
-                case 1 :
+            switch (choice) {
+                case 1:
                     order.setVerification(true);
-                    shop.getOrderQueue().remove(order);
+                    iterator.remove();
                     break;
                 case 2:
                     order.setVerification(false);
-                    shop.getOrderQueue().remove(order);
+                    iterator.remove();
                     break;
                 case 0:
                     adminMenu();
-                    break;
-                default :
+                    return;
+                default:
                     System.out.println("Invalid Input!");
-                    verifyOrder();
                     break;
             }
             System.out.println("-------------------------");
@@ -984,40 +1038,41 @@ public class Main {
         adminMenu();
     }
 
-    public static void verifyAccount(){
-
-        for(Account account : shop.getAccountQueue()){
+    public static void verifyAccount() {
+        Iterator<Account> iterator = shop.getAccountQueue().iterator();
+        while (iterator.hasNext()) {
+            Account account = iterator.next();
             System.out.println(account);
             System.out.println("do you want this account to be verified?");
             System.out.println("1. Yes");
             System.out.println("2. No");
             System.out.println("0. Exit");
             int choice = input.nextInt();
-            switch (choice){
-                case 1 :
+            switch (choice) {
+                case 1:
                     account.setAuthorization(true);
-                    shop.getAccountQueue().remove(account);
+                    iterator.remove();
                     shop.addAccount(account);
                     break;
                 case 2:
                     account.setAuthorization(false);
-                    shop.getAccountQueue().remove(account);
+                    iterator.remove();
                     break;
                 case 0:
                     adminMenu();
-                    break;
-                default :
+                    return;
+                default:
                     System.out.println("invalid Input!");
-                    verifyAccount();
                     break;
             }
-            System.out.println("-------------------------");
         }
         adminMenu();
     }
 
     public static void verifyTransfer(){
-        for(Transfer transfer : shop.getTransferQueue()){
+        Iterator<Transfer> iterator = shop.getTransferQueue().iterator();
+        while (iterator.hasNext()) {
+            Transfer transfer = iterator.next();
             System.out.println(transfer);
             System.out.println("do you want this Transfer to be done?");
             System.out.println("1. Yes");
@@ -1043,10 +1098,10 @@ public class Main {
                         }
                     }
                     System.out.println("transfer has been successfully done.");
-                    shop.getTransferQueue().remove(transfer);
+                    iterator.remove();
                     break;
                 case 2:
-                    shop.getTransferQueue().remove(transfer);
+                    iterator.remove();
                     System.out.println("transfer request has been denied by admin!");
                     break;
                 case 0:
@@ -1054,13 +1109,13 @@ public class Main {
                     break;
                 default :
                     System.out.println("invalid Input!");
-                    verifyTransfer();
                     break;
             }
-            System.out.println("-------------------------");
+
         }
         adminMenu();
     }
+
     //---------------------------------------------
 
 }

@@ -162,7 +162,7 @@ public class User extends Account{
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("USER INFORMATION\n");
+        sb.append("------------USER INFORMATION------------\n");
         sb.append("Username:     ").append(getUsername()).append("\n");
         sb.append("Email:        ").append(email).append("\n");
         sb.append("Phone number: ").append(phoneNumber).append("\n");
