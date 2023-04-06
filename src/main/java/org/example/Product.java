@@ -7,11 +7,11 @@ public class Product {
 
     public String name;
     private double price;
-    private double quantity;
+    private int quantity;
     private String comment;
     private Seller seller;
 
-    public Product(String name, double price, double quantity, String comment) {
+    public Product(String name, double price, int quantity, String comment) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.price = price;
@@ -44,11 +44,11 @@ public class Product {
         this.price = price;
     }
 
-    public double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

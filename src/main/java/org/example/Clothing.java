@@ -6,7 +6,7 @@ public class Clothing extends Product {
     private String color;
     private String gender;
 
-    public Clothing(String name, double price, double quantity, String comment, String size, String color, String gender) {
+    public Clothing(String name, double price, int quantity, String comment, String size, String color, String gender) {
         super(name, price, quantity, comment);
         this.size = size;
         this.color = color;

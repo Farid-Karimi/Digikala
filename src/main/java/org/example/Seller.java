@@ -65,6 +65,15 @@ public class Seller extends Account{
         return result;
     }
 
+    public boolean doesProductExist(String name){
+        for (Product p : availableProducts) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
