@@ -33,7 +33,7 @@ Based on these factors, I identified the following entities that need to be uniq
 
 ## UML Diagram
 
-![](E:\homework\digikala\digikala.png)
+![digikala](https://user-images.githubusercontent.com/118434072/230642341-d2dfa6fc-1d02-459d-810b-bb150f67fb9b.png)
 
 ## Conclusion:
 
