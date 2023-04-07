@@ -34,5 +34,10 @@ public class Headphone extends Electronics {
         sb.append("Noise Cancellation: ").append(batteryCapacity).append("\n");
         return sb.toString();
     }
+
+    public Headphone clone(int quantity) {
+        Headphone clonedProduct = new Headphone(this.getName(), this.getPrice(), quantity, this.getComment(), this.getBrand(), this.getModel(), this.connectionType, this.batteryCapacity);
+        return clonedProduct;
+    }
 }
 

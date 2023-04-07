@@ -34,4 +34,9 @@ public class Toy extends Product {
         sb.append("Age Range: ").append(ageRange).append("\n");
         return sb.toString();
     }
+
+    public Toy clone(int quantity) {
+        Toy clonedProduct = new Toy(this.getName(), this.getPrice(), quantity, this.getComment(),this.brand, this.ageRange);
+        return clonedProduct;
+    }
 }

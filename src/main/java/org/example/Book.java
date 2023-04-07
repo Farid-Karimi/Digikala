@@ -34,4 +34,10 @@ public class Book extends Product {
         sb.append("ISBN:      ").append(isbn).append("\n");
         return sb.toString();
     }
+
+    public Book clone(int quantity) {
+        Book clonedProduct = new Book(this.getName(), this.getPrice(), quantity, this.getComment(), this.isbn, this.author);
+        return clonedProduct;
+    }
+
 }

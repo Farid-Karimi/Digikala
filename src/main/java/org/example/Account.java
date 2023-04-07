@@ -1,7 +1,10 @@
 package org.example;
 
+import java.util.UUID;
+
 public class Account {
 
+    private UUID id;
     private String username;
 
     private String password;
@@ -9,6 +12,7 @@ public class Account {
     private boolean authorization;
 
     public Account(String username, String password) {
+        this.id = UUID.randomUUID();
         this.username = username;
         this.password = password;
         this.authorization = false;
@@ -30,7 +34,7 @@ public class Account {
         this.password = password;
     }
 
-    public boolean isAuthorization() {
+    public boolean getAuthorization() {
         return authorization;
     }
 
@@ -45,10 +49,11 @@ public class Account {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n--------------- ACCOUNT DETAILS ---------------\n");
+        sb.append("\n------------ACCOUNT DETAILS------------\n");
+        sb.append("ID:        ").append(id).append("\n");
         sb.append("Username: ").append(username).append("\n");
         sb.append("Password: ").append(password).append("\n");
-        sb.append("-------------------------------------------------\n");
+
         return sb.toString();
     }
 

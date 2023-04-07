@@ -81,5 +81,10 @@ public class Product {
         return sb.toString();
     }
 
+    public Product clone(int quantity) {
+        Product clonedProduct = new Product(this.name, this.price, quantity, this.comment);
+        return clonedProduct;
+    }
+
 
 }

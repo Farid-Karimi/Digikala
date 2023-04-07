@@ -34,4 +34,10 @@ public class Electronics extends Product {
         sb.append("Model:     ").append(model).append("\n");
         return sb.toString();
     }
+
+    public Electronics clone(int quantity) {
+        Electronics clonedProduct = new Electronics(this.getName(), this.getPrice(), quantity, this.getComment(), this.brand, this.model);
+        return clonedProduct;
+    }
+
 }

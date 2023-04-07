@@ -44,4 +44,9 @@ public class SmartWatch extends Electronics{
         sb.append("Connectivity: ").append(buildMaterial).append("\n");
         return sb.toString();
     }
+
+    public SmartWatch clone(int quantity) {
+        SmartWatch clonedProduct = new SmartWatch(this.getName(), this.getPrice(), quantity, this.getComment(), this.getBrand(), this.getModel(), this.bandType, this.buildMaterial, this.screenSize);
+        return clonedProduct;
+    }
 }

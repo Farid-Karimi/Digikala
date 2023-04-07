@@ -6,20 +6,17 @@ public class Seller extends Account{
 
     private ArrayList<Product> availableProducts;
     private double wallet;
-    private boolean authorization;
 
     public Seller(String username, String password, double wallet) {
         super(username, password);
         this.availableProducts = new ArrayList<>();
         this.wallet = wallet;
-        this.authorization = false;
     }
 
     public Seller(String username, String password) {
         super(username, password);
         this.availableProducts = new ArrayList<>();
         this.wallet = 0;
-        this.authorization = false;
     }
 
     public ArrayList<Product> getAvailableProducts() {
@@ -81,7 +78,7 @@ public class Seller extends Account{
         sb.append("Username: ").append(getUsername()).append("\n");
         sb.append("Password: ").append(getPassword()).append("\n");
         sb.append("Wallet balance: $").append(String.format("%.2f", wallet)).append("\n");
-        sb.append("Authorization status: ").append(authorization ? "Authorized" : "Not authorized").append("\n");
+        sb.append("Authorization status: ").append(this.getAuthorization() ? "Authorized" : "Not authorized").append("\n");
         sb.append("Available products:\n");
         for (Product product : availableProducts) {
             sb.append("- ").append(product.getName()).append(", $").append(String.format("%.2f", product.getPrice()));

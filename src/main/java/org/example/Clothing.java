@@ -44,4 +44,9 @@ public class Clothing extends Product {
         sb.append("Color:     ").append(color).append("\n");
         return sb.toString();
     }
+
+    public Clothing clone(int quantity) {
+        Clothing clonedProduct = new Clothing(this.getName(), this.getPrice(), quantity, this.getComment(), this.size, this.color, this.gender);
+        return clonedProduct;
+    }
 }

@@ -58,4 +58,10 @@ public class Laptop extends Electronics {
         return sb.toString();
 
     }
+
+    public Laptop clone(int quantity) {
+        Laptop clonedProduct = new Laptop(this.getName(), this.getPrice(), quantity, this.getComment(), this.getBrand(), this.getModel(), this.screenSize, this.operatingSystem, this.CPU, this.GPU);
+        return clonedProduct;
+    }
+
 }

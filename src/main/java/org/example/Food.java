@@ -34,4 +34,9 @@ public class Food extends Product {
         sb.append("Expiration Date: ").append(expirationDate).append("\n");
         return sb.toString();
     }
+
+    public Food clone(int quantity) {
+        Food clonedProduct = new Food(this.getName(), this.getPrice(), quantity, this.getComment(), this.brand, this.expirationDate);
+        return clonedProduct;
+    }
 }

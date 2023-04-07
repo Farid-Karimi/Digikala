@@ -34,5 +34,11 @@ public class BeautyProduct extends Product {
         sb.append("type:      ").append(type).append("\n");
         return sb.toString();
     }
+
+    public BeautyProduct clone(int quantity) {
+        BeautyProduct clonedProduct = new BeautyProduct(this.getName(), this.getPrice(), quantity, this.getComment(), this.brand, this.type);
+        return clonedProduct;
+    }
+
 }
 

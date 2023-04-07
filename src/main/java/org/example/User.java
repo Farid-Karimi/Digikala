@@ -12,7 +12,6 @@ public class User extends Account{
     private ArrayList<Product> shoppingCart;
     private ArrayList<Order> orders;
     private ArrayList<Product> purchased;
-    private boolean authorization;
 
     public User(String username, String password, String email, String phoneNumber, String address) {
 
@@ -24,7 +23,6 @@ public class User extends Account{
         shoppingCart = new ArrayList<>();
         orders = new ArrayList<>();
         purchased = new ArrayList<>();
-        this.authorization = false;
 
     }
 
@@ -172,7 +170,7 @@ public class User extends Account{
         sb.append("Phone number: ").append(phoneNumber).append("\n");
         sb.append("Address:      ").append(address).append("\n");
         sb.append("Balance:       ").append(String.format("$%.2f", wallet)).append("\n");
-        sb.append("Authorization:").append(authorization ? "Yes" : "No").append("\n");
+        sb.append("Authorization status: ").append(this.getAuthorization() ? "Authorized" : "Not authorized").append("\n");
         return sb.toString();
 
     }

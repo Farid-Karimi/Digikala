@@ -2,9 +2,11 @@ package org.example;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Order {
 
+    private UUID id;
     private LocalDate date;
     private User user;
     private ArrayList<Product> purchasedProducts;
@@ -12,6 +14,7 @@ public class Order {
     private boolean verification;
 
     public Order(LocalDate date, User user, ArrayList<Product> purchasedProducts) {
+        this.id = UUID.randomUUID();
         this.date = date;
         this.user = user;
         this.purchasedProducts = purchasedProducts;
@@ -47,6 +50,7 @@ public class Order {
     public String toString() {
         StringBuilder info = new StringBuilder();
         info.append("------------Order details------------\n");
+        info.append("ID:        ").append(id).append("\n");
         info.append("Date: ").append(date).append("\n");
         info.append("Buyer: ").append(user.getUsername()).append("\n");
         info.append("Purchased products:\n");

@@ -54,4 +54,9 @@ public class Phone extends Electronics {
         sb.append("Operating System: ").append(operatingSystem).append("\n");
         return sb.toString();
     }
+
+    public Phone clone(int quantity) {
+        Phone clonedProduct = new Phone(this.getName(), this.getPrice(), quantity, this.getComment(), this.getBrand(), this.getModel(), this.screenSize, this.operatingSystem, this.cameraSpecs, this.memory);
+        return clonedProduct;
+    }
 }

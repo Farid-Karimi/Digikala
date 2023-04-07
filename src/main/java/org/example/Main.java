@@ -136,7 +136,7 @@ public class Main {
         System.out.println("------------SELLER MENU------------");
         System.out.println("1. View available products");
         System.out.println("2. Add a new product");
-        System.out.println("3. Find products");
+        System.out.println("3. Find and add products");
         System.out.println("4. Remove a product");
         System.out.println("5. Transfer Money");
         System.out.println("6. View wallet balance");
@@ -484,13 +484,35 @@ public class Main {
         System.out.print("Enter products name: ");
         input.nextLine();
         String name = input.nextLine();
-        if(!seller.doesProductExist(name)){
+        if(!shop.doesProductExist(name)){
             System.out.println("the product you're looking for doesn't exist!");
             sellerMenu();
         }
         System.out.println("Your Results: ");
-        for (Product product : seller.findProductByName(name)){
+        for (Product product : shop.findProductByName(name)){
             System.out.println(product);
+            System.out.println("Do you want this product to be added to your list to sale ?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+            int choice = input.nextInt();
+            switch (choice){
+                case 1:
+                    if(product.getSeller().getUsername() == "unknown"){
+                        seller.addProducts(product);
+                        break;
+                    }
+                    System.out.print("Enter quantity: ");
+                    int quantity = input.nextInt();
+                    Product product1 = product.clone(quantity);
+                    seller.addProducts(product1);
+                    break;
+                case 2:
+                    break;
+                default:
+                    System.out.println("Invalid input!");
+                    findAvailableProducts();
+                    break;
+            }
         }
     }
 
